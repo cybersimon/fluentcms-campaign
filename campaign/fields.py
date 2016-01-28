@@ -1,6 +1,10 @@
-from django.conf import settings
-from django.db import models
+# -*- coding: utf-8 -*-
+
+# TODO: replace with django-jsonfield ???
+
 from django import forms
+from django.db import models
+from django.conf import settings
 try:
     from django.utils import simplejson
 except ImportError:
@@ -13,7 +17,9 @@ class JSONWidget(forms.Textarea):
             value = simplejson.dumps(value, indent=2)
         return super(JSONWidget, self).render(name, value, attrs)
 
+
 class JSONFormField(forms.CharField):
+
     def __init__(self, *args, **kwargs):
         kwargs['widget'] = JSONWidget
         super(JSONFormField, self).__init__(*args, **kwargs)
@@ -24,6 +30,7 @@ class JSONFormField(forms.CharField):
             return simplejson.loads(value)
         except Exception, exc:
             raise forms.ValidationError(u'JSON decode error: %s' % (unicode(exc),))
+
 
 class JSONField(models.TextField):
     __metaclass__ = models.SubfieldBase
@@ -43,7 +50,3 @@ class JSONField(models.TextField):
     def value_to_string(self, obj):
         value = self._get_val_from_obj(obj)
         return self.get_db_prep_value(value)
-
-if 'south' in settings.INSTALLED_APPS:
-    from south.modelsinspector import add_introspection_rules
-    add_introspection_rules([], ["^campaign\.fields\.JSONField"])
