@@ -25,14 +25,20 @@ class CampaignView(LanguageChoiceMixin, BaseDetailView):
         return super(CampaignView, self).get_queryset().filter(online=True)
 
     def get_object(self):
-        obj = super(CampaignView, self).get_object()
-        return obj.template
+        self.campaign = super(CampaignView, self).get_object()
+        return self.campaign.template
 
     def get_context_data(self, **kwargs):
         context = super(CampaignView, self).get_context_data(**kwargs)
+
+        extra_context = settings.FLUENTCMS_EMAILTEMPLATES_PREVIEW_CONTEXT
+        if extra_context is None:
+            extra_context = {}
+
+        extra_context.update({'campaign': self.campaign})
         email = render_email_template(self.object,
             base_url=self.request.build_absolute_uri('/'),
-            extra_context=settings.FLUENTCMS_EMAILTEMPLATES_PREVIEW_CONTEXT,
+            extra_context=extra_context,
             user=self.request.user,
         )
         context['email'] = email
