@@ -1,33 +1,48 @@
-# # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
+from django.utils import six
+from django.conf import settings
+from django.http import HttpResponse
+from django.views.generic.detail import BaseDetailView
+
+from parler.views import LanguageChoiceMixin
+from fluentcms_emailtemplates.rendering import render_email_template
 # from django import template, http
-# from django.conf import settings
 # from django.shortcuts import get_object_or_404, render_to_response
 # from django.core.urlresolvers import reverse
 # from django.contrib.sites.models import Site
 
-# from .models import Campaign, BlacklistEntry
+from .models import Campaign #, BlacklistEntry
 # from .forms import SubscribeForm, UnsubscribeForm
 
 
-# def view_online(request, object_id):
-#     campaign = get_object_or_404(Campaign, pk=object_id, online=True)
+class CampaignView(LanguageChoiceMixin, BaseDetailView):
+    model = Campaign
 
-#     if campaign.template.html is not None and \
-#         campaign.template.html != u"" and \
-#         not request.GET.get('txt', False):
-#         tpl = template.Template(campaign.template.html)
-#         content_type = 'text/html; charset=utf-8'
-#     else:
-#         tpl = template.Template(campaign.template.plain)
-#         content_type = 'text/plain; charset=utf-8'
-#     context = template.Context({})
-#     if campaign.online:
-#         context.update({'view_online_url': reverse("campaign_view_online", kwargs={'object_id': campaign.pk}),
-#                         'viewed_online': True,
-#                         'site_url': Site.objects.get_current().domain})
-#     return http.HttpResponse(tpl.render(context),
-#                             content_type=content_type)
+    def get_queryset(self):
+        return super(CampaignView, self).get_queryset().filter(online=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(CampaignView, self).get_context_data(**kwargs)
+        email = render_email_template(self.object.template,
+            base_url=self.request.build_absolute_uri('/'),
+            extra_context=settings.FLUENTCMS_EMAILTEMPLATES_PREVIEW_CONTEXT,
+            user=self.request.user,
+        )
+        context['email'] = email
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        # Allow fetching a raw HTML or text version.
+        # Will render in the template otherwise.
+        format = self.request.GET.get('format') or 'html'
+
+        email = context['email']
+        if format in ('text', 'txt'):
+            return HttpResponse(six.text_type(
+                email.text), content_type='text/plain; charset=utf8')
+        return HttpResponse(six.text_type(
+            email.html), content_type='text/html; charset=utf8')
 
 
 # def subscribe(request, template_name='campaign/subscribe.html',

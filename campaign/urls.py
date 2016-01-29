@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-# from django.conf import settings
-# from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls import url
 
-# from .views import *
+from .views import CampaignView
 
 urlpatterns = [
-#     url(r'^view/(?P<object_id>[\d]+)/$', 'view_online', {}, name="campaign_view_online"),
+    url(r'^view/(?P<pk>[\d]+)/$', CampaignView.as_view(), name='campaign_view_online'),
 ]
 
 # if getattr(settings, 'CAMPAIGN_SUBSCRIBE_CALLBACK', None):
