@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(
-    name='django-campaign',
+    name='fluentcms-campaign',
     version=__import__('campaign').__version__,
     description='A basic newsletter app for the Django webframework',
     long_description=open('README.rst').read(),
