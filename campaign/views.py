@@ -6,6 +6,8 @@ from django.http import HttpResponse
 from django.views.generic.detail import BaseDetailView
 
 from parler.views import LanguageChoiceMixin
+
+from fluentcms_emailtemplates.models import EmailTemplate
 from fluentcms_emailtemplates.rendering import render_email_template
 # from django import template, http
 # from django.shortcuts import get_object_or_404, render_to_response
@@ -22,9 +24,13 @@ class CampaignView(LanguageChoiceMixin, BaseDetailView):
     def get_queryset(self):
         return super(CampaignView, self).get_queryset().filter(online=True)
 
+    def get_object(self):
+        obj = super(CampaignView, self).get_object()
+        return obj.template
+
     def get_context_data(self, **kwargs):
         context = super(CampaignView, self).get_context_data(**kwargs)
-        email = render_email_template(self.object.template,
+        email = render_email_template(self.object,
             base_url=self.request.build_absolute_uri('/'),
             extra_context=settings.FLUENTCMS_EMAILTEMPLATES_PREVIEW_CONTEXT,
             user=self.request.user,
