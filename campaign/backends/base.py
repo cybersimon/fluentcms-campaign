@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.sites.models import Site
+from django.contrib.auth import get_user_model
 
 from campaign.context import MailContext
 from campaign.conf import settings
@@ -34,8 +35,7 @@ class BaseBackend(object):
                     continue
 
                 context = self.context_class(recipient).update({
-                    'recipient_email': email_address,
-                    'site': current_site,
+                    'user': recipient if isinstance(recipient, get_user_model()) else None,
                 })
 
                 email_obj = template.get_email_message(
