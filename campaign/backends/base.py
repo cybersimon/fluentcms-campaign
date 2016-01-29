@@ -48,7 +48,7 @@ class BaseBackend(object):
                 )
                 self.send_mail(email_obj, fail_silently)
 
-                if recipient not in recipient:
+                if recipient not in recipients:
                     recipients.append(recipient)
                 num_sent += 1
         return num_sent
