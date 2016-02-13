@@ -11,7 +11,7 @@ from django.utils.encoding import force_text
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.template.response import TemplateResponse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 
 from .models import Campaign, BlacklistEntry, SubscriberList, Newsletter
 
