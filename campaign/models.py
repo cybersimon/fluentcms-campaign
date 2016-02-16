@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 
-from fluentcms_emailtemplates.models import EmailTemplate as MailTemplate
-
 from .fields import JSONField
+from .abstracts import CampaignAbstract
 from .backends import get_backend
+from .utils import import_model
+
+CampaignAbstract = import_model(
+    getattr(settings, 'FLUENTCMS_CAMPAIGN_MODEL', CampaignAbstract))
 
 
 class Newsletter(models.Model):
@@ -65,7 +69,7 @@ class SubscriberList(models.Model):
         return self.object_list().count()
 
 
-class Campaign(models.Model):
+class Campaign(CampaignAbstract):
     """
     A Campaign is the central part of this app. Once a Campaign is
     created, has a MailTemplate and one or more SubscriberLists, it
@@ -77,25 +81,12 @@ class Campaign(models.Model):
     A Campaign optionally belongs to a Newsletter.
 
     """
-    name = models.CharField(_("name"), max_length=255)
-    newsletter = models.ForeignKey(Newsletter, verbose_name=_("newsletter"), blank=True, null=True)
-    template = models.ForeignKey(MailTemplate, verbose_name=_("template"))
-
-    recipients = models.ManyToManyField(SubscriberList, verbose_name=_("subscriber lists"))
-
-    sent = models.BooleanField(_("sent out"), default=False, editable=False)
-    sent_at = models.DateTimeField(_("sent at"), blank=True, null=True)
-
-    online = models.BooleanField(_("available online"), default=True, blank=True,
-        help_text=_("make a copy available online"))
-
-    def __unicode__(self):
-        return self.name
 
     class Meta:
         verbose_name = _("campaign")
         verbose_name_plural = _("campaigns")
         ordering = ('name', 'sent')
+        abstract = False
 
     def send(self):
         """Sends the mails to the recipients"""
