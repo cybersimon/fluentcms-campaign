@@ -13,9 +13,6 @@ django-fluent-contents_ blocks to define the e-mail templates.
 .. image:: https://img.shields.io/github/license/bashu/fluentcms-campaign.svg
     :target: https://pypi.python.org/pypi/fluentcms-campaign/
 
-.. image:: https://landscape.io/github/bashu/fluentcms-campaign/develop/landscape.svg?style=flat
-    :target: https://landscape.io/github/bashu/fluentcms-campaign/develop
-
 
 Installation
 ============
