@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'fluent_contents',
 
     'fluentcms_emailtemplates',
+    'fluentcms_emailtemplates.plugins.emailtext',
     
     'any_urlfield',
     'django_wysiwyg',
@@ -105,6 +106,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
