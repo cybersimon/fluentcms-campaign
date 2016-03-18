@@ -25,6 +25,6 @@ if settings.SERVE_MEDIA:
     )
 
 urlpatterns += patterns('',
-    url(r'^campaign/', include('campaign.urls'))
+    url(r'^campaign/', include('campaign.urls')),
     url(r'', include('fluent_pages.urls')),
 )
