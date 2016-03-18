@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from fluentcms_emailtemplates.models import EmailTemplate as MailTemplate
+
+from .backends import get_backend
 
 
 class CampaignAbstract(models.Model):
@@ -23,7 +26,20 @@ class CampaignAbstract(models.Model):
         help_text=_("make a copy available online"))
 
     class Meta:
+        verbose_name = _("campaign")
+        verbose_name_plural = _("campaigns")
+        ordering = ('name', 'sent')
         abstract = True
 
     def __unicode__(self):
         return self.name
+
+    def send(self):
+        """Sends the mails to the recipients"""
+        num_sent = get_backend().send_campaign(self)
+
+        self.sent = True
+        self.sent_at = timezone.now()
+        self.save()
+
+        return num_sent

@@ -5,6 +5,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.views.generic.detail import BaseDetailView
 
+import swapper
 from parler.views import LanguageChoiceMixin
 
 from fluentcms_emailtemplates.models import EmailTemplate
@@ -14,8 +15,9 @@ from fluentcms_emailtemplates.rendering import render_email_template
 # from django.core.urlresolvers import reverse
 # from django.contrib.sites.models import Site
 
-from .models import Campaign #, BlacklistEntry
 # from .forms import SubscribeForm, UnsubscribeForm
+
+Campaign = swapper.load_model("campaign", "Campaign")
 
 
 class CampaignView(LanguageChoiceMixin, BaseDetailView):

@@ -7,11 +7,18 @@ from django.contrib import messages
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 from django.contrib.admin.util import quote, unquote
+try:
+    from django.utils.encoding import force_unicode as force_text
+except ImportError:
+    from django.utils.encoding import force_text
 from django.contrib.admin.options import IS_POPUP_VAR
 from django.core.exceptions import PermissionDenied
 from django.template.response import TemplateResponse
 from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
+from django.utils.html import escape
+
+import swapper
 
 from .models import Campaign, BlacklistEntry, SubscriberList, Newsletter
 
@@ -100,7 +107,8 @@ class CampaignAdmin(admin.ModelAdmin):
                 'admin/send_object.html',
             ], context)
 
-admin.site.register(Campaign, CampaignAdmin)
+if not swapper.is_swapped('campaign', 'Campaign'):
+    admin.site.register(Campaign, CampaignAdmin)
 
 
 class BlacklistEntryAdmin(admin.ModelAdmin):

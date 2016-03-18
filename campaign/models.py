@@ -6,13 +6,11 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 
+import swapper
+
 from .fields import JSONField
 from .abstracts import CampaignAbstract
 from .backends import get_backend
-from .utils import import_model
-
-CampaignAbstract = import_model(
-    getattr(settings, 'FLUENTCMS_CAMPAIGN_MODEL', CampaignAbstract))
 
 
 class Newsletter(models.Model):
@@ -24,13 +22,13 @@ class Newsletter(models.Model):
     description = models.TextField(_("description"), blank=True, null=True)
     from_email = models.EmailField(_("sending address"), blank=True, null=True)
 
-    def __unicode__(self):
-        return self.name
-
     class Meta:
         verbose_name = _("newsletter")
         verbose_name_plural = _("newsletters")
         ordering = ('name',)
+
+    def __unicode__(self):
+        return self.name
 
 
 class SubscriberList(models.Model):
@@ -45,13 +43,13 @@ class SubscriberList(models.Model):
     email_field_name = models.CharField(_("EmailField name"), max_length=64,
         help_text=_("Name of the model field which stores the recipients email address"))
 
-    def __unicode__(self):
-        return self.name
-
     class Meta:
         verbose_name = _("subscriber list")
         verbose_name_plural = _("subscriber lists")
         ordering = ('name',)
+
+    def __unicode__(self):
+        return self.name
 
     def _get_filter(self):
         # simplejson likes to put unicode objects as dictionary keys
@@ -82,21 +80,9 @@ class Campaign(CampaignAbstract):
 
     """
 
-    class Meta:
-        verbose_name = _("campaign")
-        verbose_name_plural = _("campaigns")
-        ordering = ('name', 'sent')
+    class Meta(CampaignAbstract.Meta):
         abstract = False
-
-    def send(self):
-        """Sends the mails to the recipients"""
-        num_sent = get_backend().send_campaign(self)
-
-        self.sent = True
-        self.sent_at = timezone.now()
-        self.save()
-
-        return num_sent
+        swappable = swapper.swappable_setting('campaign', 'Campaign')
 
 
 class BlacklistEntry(models.Model):
@@ -110,10 +96,10 @@ class BlacklistEntry(models.Model):
     added = models.DateTimeField(default=timezone.now, editable=False)
     reason = models.TextField(_("reason"), blank=True, null=True)
 
-    def __unicode__(self):
-        return self.email
-
     class Meta:
         verbose_name = _("blacklist entry")
         verbose_name_plural = _("blacklist entries")
         ordering = ('-added',)
+
+    def __unicode__(self):
+        return self.email
