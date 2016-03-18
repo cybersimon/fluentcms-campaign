@@ -4,14 +4,14 @@ from functools import update_wrapper
 
 from django.contrib import admin
 from django.contrib import messages
+from django.utils.encoding import force_text
+from django.utils.translation import ugettext as _
 from django.contrib.admin.util import quote, unquote
 from django.contrib.admin.options import IS_POPUP_VAR
-from django.utils.translation import ugettext as _
-from django.utils.encoding import force_text
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse
 from django.template.response import TemplateResponse
 from django.http import HttpResponseRedirect, Http404
+from django.core.urlresolvers import reverse
 
 from .models import Campaign, BlacklistEntry, SubscriberList, Newsletter
 
@@ -106,34 +106,34 @@ admin.site.register(Campaign, CampaignAdmin)
 class BlacklistEntryAdmin(admin.ModelAdmin):
     list_display=('email', 'added')
 
-    def get_urls(self):
-        from django.conf.urls import url
+    # def get_urls(self):
+    #     from django.conf.urls import url
 
-        def wrap(view):
-            def wrapper(*args, **kwargs):
-                return self.admin_site.admin_view(view)(*args, **kwargs)
-            wrapper.model_admin = self
-            return update_wrapper(wrapper, view)
+    #     def wrap(view):
+    #         def wrapper(*args, **kwargs):
+    #             return self.admin_site.admin_view(view)(*args, **kwargs)
+    #         wrapper.model_admin = self
+    #         return update_wrapper(wrapper, view)
 
-        info = self.model._meta.app_label, self.model._meta.model_name
-        urlpatterns = [
-            url(r'^fetch_mandrill_rejects/$',
-                wrap(self.fetch_mandrill_rejects), name='%s_%s_fetchmandrillrejects' % info),
-        ]
-        return urlpatterns + super(BlacklistEntryAdmin, self).get_urls()
+    #     info = self.model._meta.app_label, self.model._meta.model_name
+    #     urlpatterns = [
+    #         url(r'^fetch_mandrill_rejects/$',
+    #             wrap(self.fetch_mandrill_rejects), name='%s_%s_fetchmandrillrejects' % info),
+    #     ]
+    #     return urlpatterns + super(BlacklistEntryAdmin, self).get_urls()
 
-    def fetch_mandrill_rejects(self, request):
-        from django.core.management import call_command
+    # def fetch_mandrill_rejects(self, request):
+    #     from django.core.management import call_command
 
-        model = self.model
-        opts = model._meta
+    #     model = self.model
+    #     opts = model._meta
 
-        call_command('fetch_mandrill_rejects')
-        self.message_user(
-            request, _("Successfully fetched Mandrill rejects"), messages.SUCCESS)
-        return HttpResponseRedirect(reverse(
-            'admin:%s_%s_changelist' % (opts.app_label, opts.model_name),
-            current_app=self.admin_site.name,
-        ))
+    #     call_command('fetch_mandrill_rejects')
+    #     self.message_user(
+    #         request, _("Successfully fetched Mandrill rejects"), messages.SUCCESS)
+    #     return HttpResponseRedirect(reverse(
+    #         'admin:%s_%s_changelist' % (opts.app_label, opts.model_name),
+    #         current_app=self.admin_site.name,
+    #     ))
 
 admin.site.register(BlacklistEntry, BlacklistEntryAdmin)

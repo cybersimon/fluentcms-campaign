@@ -1,12 +1,11 @@
-import logging
+# -*- coding: utf-8 -*-
+
 import mandrill
 
 from django.conf import settings
 from django.core.management.base import NoArgsCommand
 
 from campaign.models import BlacklistEntry
-
-logger = logging.getLogger('django.campaign')
 
 
 class Command(NoArgsCommand):
@@ -21,13 +20,13 @@ class Command(NoArgsCommand):
         settings.MANDRILL_API_KEY
 
     """
-    help = "fetch rejects from mandrill and store in local blacklist"
+    help = "Fetch rejects from mandrill and store in local blacklist"
 
     def handle_noargs(self, **options):
         try:
-            mandrill_client = mandrill.Mandrill(settings.MANDRILL_API_KEY)
+            client = mandrill.Mandrill(settings.MANDRILL_API_KEY)
 
-            for reject in mandrill_client.rejects.list():
+            for reject in client.rejects.list():
                 if reject['reason'] in ('hard-bounce', 'spam', 'unsub'):
                      BlacklistEntry.objects.get_or_create(
                         email=reject['email'], defaults={
@@ -35,5 +34,4 @@ class Command(NoArgsCommand):
                         })
 
         except mandrill.Error, e:
-            logger.error('Mandrill error: %s - %s' % (e.__class__, e))
             raise e
