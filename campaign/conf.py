@@ -10,6 +10,8 @@ class CampaignSettings(AppConf):
     CONTEXT_PROCESSORS = (
         'campaign.context_processors.recipient',
     )
+    SUBSCRIBE_CALLBACK = None
+    UNSUBSCRIBE_CALLBACK = None
 
     class Meta:
         prefix = 'campaign'
