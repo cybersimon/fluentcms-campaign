@@ -140,3 +140,9 @@ STATIC_URL = '/static/'
 FLUENT_PAGES_TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates', 'layouts')
 
 DJANGO_WYSIWYG_FLAVOR = "tinymce"
+
+
+## Campaign settings
+
+CAMPAIGN_SUBSCRIBE_CALLBACK = 'example.callbacks.subscribe'
+CAMPAIGN_UNSUBSCRIBE_CALLBACK = 'example.callbacks.unsubscribe'
