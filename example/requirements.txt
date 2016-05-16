@@ -1,0 +1,10 @@
+django<1.9
+django-wysiwyg
+django-any-urlfield
+fluentcms-emailtemplates
+django-fluent-pages
+django-tinymce
+jsonfield
+swapper
+pillow
+south

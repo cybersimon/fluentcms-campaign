@@ -1,16 +1,24 @@
-from django.conf import settings
-from django.conf.urls import patterns, url
+# -*- coding: utf-8 -*-
 
-urlpatterns = patterns('campaign.views',
-    url(r'^view/(?P<object_id>[\d]+)/$', 'view_online', {}, name="campaign_view_online"),
-)
+from django.conf.urls import url
+
+from .conf import settings
+from .views import CampaignView
+
+urlpatterns = [
+    url(r'^view/(?P<pk>[\d]+)/$', CampaignView.as_view(), name='campaign_preview'),
+]
 
 if getattr(settings, 'CAMPAIGN_SUBSCRIBE_CALLBACK', None):
-    urlpatterns += patterns('campaign.views',
-        url(r'^subscribe/$', 'subscribe', {}, name="campaign_subscribe"),
-    )
+     from .views import CampaignSubscribe
+
+     urlpatterns += [
+         url(r'^subscribe/$', CampaignSubscribe.as_view(), name='campaign_subscribe'),
+     ]
 
 if getattr(settings, 'CAMPAIGN_UNSUBSCRIBE_CALLBACK', None):
-    urlpatterns += patterns('campaign.views',
-        url(r'^unsubscribe/$', 'unsubscribe', {}, name="campaign_unsubscribe"),
-    )
+     from .views import CampaignUnsubscribe
+
+     urlpatterns += [
+         url(r'^unsubscribe/$', CampaignUnsubscribe.as_view(), name='campaign_unsubscribe'),
+     ]

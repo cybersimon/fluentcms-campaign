@@ -1,38 +1,62 @@
-=================================================
-Newsletter management for the Django webframework
-=================================================
+fluentcms-campaign
+==================
 
-Django-campaign is a newsletter campaign management app for the Django
-webframework. It can manage multiple newsletters with different subscriberlists.
+fluentcms-campaign is a newsletter campaign management app, that uses
+django-fluent-contents_ blocks to define the e-mail templates.
 
-Features
---------
+.. image:: https://img.shields.io/pypi/v/fluentcms-campaign.svg
+    :target: https://pypi.python.org/pypi/fluentcms-campaign/
 
-* Multiple newsletters
-* Multiple subscriberlists
-* Personalization of content for every Subscriber
-* Subscriber model lives in your code and can have whatever fields you want
-* Subscriberlists are defined as orm query parameters
-* Send mails from your own Server (through Django's email mechanism)
-* Send mails through Mandrill (a transactional email service from Mailchimp)
-* Pluggable backends for integration with other email services
-* Make newsletters available online
-* Internal blacklist
+.. image:: https://img.shields.io/pypi/dm/fluentcms-campaign.svg
+    :target: https://pypi.python.org/pypi/fluentcms-campaign/
 
-Upgrading
----------
-
-If you are upgrading from a 0.2.x release the following changes are noteworthy:
-
-* The south migrations where removed in favor of Django 1.7 native migrations
-* The 'debug' and 'django_mailer' backends are no longer used, because setting
-  Django's EMAIL_BACKEND settings to the correct value has the same effect.
+.. image:: https://img.shields.io/github/license/bashu/fluentcms-campaign.svg
+    :target: https://pypi.python.org/pypi/fluentcms-campaign/
 
 
+Installation
+============
 
-Documentation
--------------
+First install the module, preferably in a virtual environment. It can be installed from PyPI:
 
-The documentation is available in the docs folder and online at:
-http://django-campaign.readthedocs.org
+.. code-block:: shell
 
+    pip install fluentcms-campaign
+
+
+Backend Configuration
+---------------------
+
+First make sure the project is configured for fluentcms-emailtemplates_.
+
+Then add the following settings:
+
+.. code-block:: python
+
+    INSTALLED_APPS += (
+        'campaign',
+    )
+
+Update your urls.py file:
+
+.. code-block:: python
+
+    urlpatterns += [
+        url(r'^campaign/', include('campaign.urls')),
+    ]
+
+The database tables can be created afterwards:
+
+.. code-block:: shell
+
+    python ./manage.py migrate
+
+Contributing
+------------
+
+If you like this module, forked it, or would like to improve it, please let us know!
+Pull requests are welcome too. :-)
+
+.. _django-campaign: https://github.com/arneb/django-campaign
+.. _django-fluent-contents: https://github.com/edoburu/django-fluent-contents
+.. _fluentcms-emailtemplates: https://github.com/edoburu/fluentcms-emailtemplates
