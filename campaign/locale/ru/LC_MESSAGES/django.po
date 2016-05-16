@@ -1,0 +1,201 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-16 10:52+0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: abstracts.py:14 models.py:21 models.py:39
+msgid "name"
+msgstr ""
+
+#: abstracts.py:16 models.py:26
+msgid "newsletter"
+msgstr ""
+
+#: abstracts.py:17
+msgid "template"
+msgstr ""
+
+#: abstracts.py:20 models.py:48
+msgid "subscriber lists"
+msgstr ""
+
+#: abstracts.py:22
+msgid "sent out"
+msgstr ""
+
+#: abstracts.py:23
+msgid "sent at"
+msgstr ""
+
+#: abstracts.py:25
+msgid "available online"
+msgstr ""
+
+#: abstracts.py:26
+msgid "make a copy available online"
+msgstr ""
+
+#: abstracts.py:29
+msgid "campaign"
+msgstr ""
+
+#: abstracts.py:30
+msgid "campaigns"
+msgstr ""
+
+#: admin.py:69
+#, python-format
+msgid "%(name)s object with primary key %(key)r does not exist."
+msgstr ""
+
+#: admin.py:81
+#, python-format
+msgid ""
+"The %(name)s \"%(obj)s\" was successfully sent. %(num_sent)s messages "
+"delivered."
+msgstr ""
+
+#: admin.py:93
+#, python-format
+msgid "Send %s"
+msgstr ""
+
+#: apps.py:9
+msgid "Campaign Management"
+msgstr ""
+
+#: models.py:22
+msgid "description"
+msgstr ""
+
+#: models.py:23
+msgid "sending address"
+msgstr ""
+
+#: models.py:27
+msgid "newsletters"
+msgstr ""
+
+#: models.py:42
+msgid ""
+"Django ORM compatible lookup kwargs which are used to get the list of "
+"objects."
+msgstr ""
+
+#: models.py:43
+msgid "EmailField name"
+msgstr ""
+
+#: models.py:44
+msgid "Name of the model field which stores the recipients email address"
+msgstr ""
+
+#: models.py:47
+msgid "subscriber list"
+msgstr ""
+
+#: models.py:97
+msgid "reason"
+msgstr ""
+
+#: models.py:100
+msgid "blacklist entry"
+msgstr ""
+
+#: models.py:101
+msgid "blacklist entries"
+msgstr ""
+
+#: templates/admin/campaign/blacklistentry.bak/change_list.html:6
+msgid "Fetch and add Mandrill rejects"
+msgstr ""
+
+#: templates/admin/campaign/campaign/change_form.html:6
+msgid "History"
+msgstr ""
+
+#: templates/admin/campaign/campaign/change_form.html:7
+msgid "View on site"
+msgstr ""
+
+#: templates/admin/campaign/campaign/change_form.html:8
+#: templates/admin/campaign/campaign/send_object.html:10
+#: templates/admin/campaign/campaign/send_object.html:39
+msgid "Send"
+msgstr ""
+
+#: templates/admin/campaign/campaign/send_object.html:6
+msgid "Home"
+msgstr ""
+
+#: templates/admin/campaign/campaign/send_object.html:22
+msgid ""
+"This campaign has already been sent at least once. Are you sure that you "
+"want to send it again?"
+msgstr ""
+
+#: templates/admin/campaign/campaign/send_object.html:24
+#, python-format
+msgid ""
+"\n"
+"\t\t\tClicking 'Send' below will send the <a href=\"../\">%(object_name)s</"
+"a> %(model_name)s to its recipients.\n"
+"\t\t\t"
+msgstr ""
+
+#: templates/admin/campaign/campaign/send_object.html:27
+msgid "Subscriber lists"
+msgstr ""
+
+#: templates/admin/campaign/campaign/send_object.html:31
+#, python-format
+msgid "%(subscriber_count)s recipient%(pluralized)s"
+msgstr ""
+
+#: templates/campaign/subscribe.html:6
+msgid "Subscribe to our newsletter"
+msgstr ""
+
+#: templates/campaign/subscribe.html:8
+msgid "You successfully subscribed to our newsletter."
+msgstr ""
+
+#: templates/campaign/subscribe.html:9
+msgid "Something went wrong and we could not subscribe you."
+msgstr ""
+
+#: templates/campaign/subscribe.html:14
+msgid "subscribe"
+msgstr ""
+
+#: templates/campaign/unsubscribe.html:6
+msgid "Unsubscribe from our newsletter"
+msgstr ""
+
+#: templates/campaign/unsubscribe.html:8
+msgid "You successfully unscuscribed from our newsletter."
+msgstr ""
+
+#: templates/campaign/unsubscribe.html:9
+msgid "Something went wrong and we could not unsubscribe you."
+msgstr ""
+
+#: templates/campaign/unsubscribe.html:14
+msgid "unsubscribe"
+msgstr ""
