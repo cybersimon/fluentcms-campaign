@@ -29,6 +29,7 @@ admin.site.register(Newsletter, list_display=('name', 'from_email'))
 class CampaignAdmin(admin.ModelAdmin):
     filter_horizontal=('recipients',)
     list_display=('name', 'newsletter', 'sent', 'sent_at', 'online')
+    change_form_template = 'admin/campaign/campaign/change_form.html'
     send_template = None
 
     def has_send_permission(self, request, obj):
