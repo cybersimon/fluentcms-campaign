@@ -1,4 +1,4 @@
-django
+django<1.9
 django-wysiwyg
 django-any-urlfield
 fluentcms-emailtemplates
