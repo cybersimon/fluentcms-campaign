@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.contrib import messages
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
-from django.contrib.admin.util import quote, unquote
+from django.contrib.admin.utils import quote, unquote
 try:
     from django.utils.encoding import force_unicode as force_text
 except ImportError:
@@ -35,9 +35,8 @@ class CampaignAdmin(admin.ModelAdmin):
     def has_send_permission(self, request, obj):
         """
         Subclasses may override this and implement more granular permissions.
-        TODO: integrate with django's permisson system
         """
-        return request.user.is_superuser
+        return request.user.has_perm('campaign.send_campaign')
 
     def get_urls(self):
         from django.conf.urls import url
@@ -114,35 +113,5 @@ if not swapper.is_swapped('campaign', 'Campaign'):
 
 class BlacklistEntryAdmin(admin.ModelAdmin):
     list_display=('email', 'added')
-
-    # def get_urls(self):
-    #     from django.conf.urls import url
-
-    #     def wrap(view):
-    #         def wrapper(*args, **kwargs):
-    #             return self.admin_site.admin_view(view)(*args, **kwargs)
-    #         wrapper.model_admin = self
-    #         return update_wrapper(wrapper, view)
-
-    #     info = self.model._meta.app_label, self.model._meta.model_name
-    #     urlpatterns = [
-    #         url(r'^fetch_mandrill_rejects/$',
-    #             wrap(self.fetch_mandrill_rejects), name='%s_%s_fetchmandrillrejects' % info),
-    #     ]
-    #     return urlpatterns + super(BlacklistEntryAdmin, self).get_urls()
-
-    # def fetch_mandrill_rejects(self, request):
-    #     from django.core.management import call_command
-
-    #     model = self.model
-    #     opts = model._meta
-
-    #     call_command('fetch_mandrill_rejects')
-    #     self.message_user(
-    #         request, _("Successfully fetched Mandrill rejects"), messages.SUCCESS)
-    #     return HttpResponseRedirect(reverse(
-    #         'admin:%s_%s_changelist' % (opts.app_label, opts.model_name),
-    #         current_app=self.admin_site.name,
-    #     ))
 
 admin.site.register(BlacklistEntry, BlacklistEntryAdmin)

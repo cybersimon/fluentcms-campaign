@@ -42,7 +42,6 @@ setup(
     install_requires=[
         'django-fluent-contents>=1.0',
         'fluentcms-emailtemplates',
-        'jsonfield',
         'swapper',
     ],
     requires=[

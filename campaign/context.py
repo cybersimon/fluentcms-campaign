@@ -41,8 +41,8 @@ class MailContext(Context):
     using the "processors" keyword argument.
 
     """
-    def __init__(self, subscriber, dict_=None, processors=None, current_app=None, use_l10n=None, use_tz=None):
-        Context.__init__(self, dict_, current_app=current_app, use_l10n=use_l10n, use_tz=use_tz)
+    def __init__(self, subscriber, dict_=None, processors=None, use_l10n=None, use_tz=None):
+        Context.__init__(self, dict_, use_l10n=use_l10n, use_tz=use_tz)
         if processors is None:
             processors = ()
         else:

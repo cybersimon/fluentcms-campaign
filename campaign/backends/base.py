@@ -36,6 +36,7 @@ class BaseBackend(object):
 
                 context = self.context_class(recipient).update({
                     'user': recipient if isinstance(recipient, get_user_model()) else None,
+                    'site': current_site,
                     'campaign': campaign,
                 })
 
