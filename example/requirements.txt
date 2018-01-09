@@ -1,5 +1,4 @@
 django<2.0
-django-slug-preview
 django-wysiwyg
 django-any-urlfield
 # TODO: replace with upstream version
