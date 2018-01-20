@@ -61,7 +61,7 @@ class SubscriberList(models.Model):
 
     def object_list(self):
         return self.content_type.model_class()._default_manager.filter(
-            **self._get_filter())
+            **self._get_filter()).distinct()
 
     def object_count(self):
         return self.object_list().count()
@@ -83,7 +83,10 @@ class Campaign(CampaignAbstract):
     class Meta(CampaignAbstract.Meta):
         abstract = False
         swappable = swapper.swappable_setting('campaign', 'Campaign')
-
+        permissions = (
+            ("send_campaign", _("Can send campaign")),
+        )
+  		
 
 class BlacklistEntry(models.Model):
     """
