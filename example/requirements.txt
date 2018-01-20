@@ -1,8 +1,7 @@
 django<2.0
 django-wysiwyg
 django-any-urlfield
-# TODO: replace with upstream version
-https://github.com/sigmacms/fluentcms-emailtemplates/archive/master.zip
+fluentcms-emailtemplates>0.2.5
 django-fluent-pages
 django-tinymce
 swapper
