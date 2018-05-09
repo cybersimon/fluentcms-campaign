@@ -15,7 +15,7 @@ def get_backend(import_path=settings.CAMPAIGN_BACKEND):
         import_path = "campaign.backends.%s" % import_path
     try:
         mod = __import__(import_path, {}, {}, [''])
-    except ImportError, e_user:
+    except ImportError as e:
         # No backend found, display an error message and a list of all
         # bundled backends.
         backends = [f.split('.py')[0] for f in os.listdir(__path__[0]) if not f.startswith('_') and not f.startswith('.') and not f.endswith('.pyc')]

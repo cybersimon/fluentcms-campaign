@@ -13,7 +13,7 @@ except ImportError:
 class JSONWidget(forms.Textarea):
 
     def render(self, name, value, attrs=None):
-        if not isinstance(value, basestring):
+        if not isinstance(value, str):
             value = simplejson.dumps(value, indent=2)
         return super(JSONWidget, self).render(name, value, attrs)
 
@@ -28,8 +28,8 @@ class JSONFormField(forms.CharField):
         if not value: return
         try:
             return simplejson.loads(value)
-        except Exception, exc:
-            raise forms.ValidationError(u'JSON decode error: %s' % (unicode(exc),))
+        except Exception as e:
+            raise forms.ValidationError('JSON decode error: %s' % str(e))
 
 
 class JSONField(models.TextField):
@@ -38,12 +38,12 @@ class JSONField(models.TextField):
         return super(JSONField, self).formfield(form_class=JSONFormField, **kwargs)
 
     def to_python(self, value):
-        if isinstance(value, basestring):
+        if isinstance(value, str):
             value = simplejson.loads(value)
         return value
 
     def from_db_value(self, value, expression, connection, context):
-        if isinstance(value, basestring):
+        if isinstance(value, str):
             value = simplejson.loads(value)
         return value
 

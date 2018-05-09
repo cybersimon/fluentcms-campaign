@@ -55,7 +55,7 @@ class SubscriberList(models.Model):
         # simplejson likes to put unicode objects as dictionary keys
         # but keyword arguments must be str type
         fc = {}
-        for k,v in self.filter_condition.iteritems():
+        for k, v in list(self.filter_condition.items()):
             fc.update({str(k): v})
         return fc
 
