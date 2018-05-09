@@ -2,8 +2,8 @@ django<2.0
 django-wysiwyg
 django-any-urlfield
 fluentcms-emailtemplates>0.2.5
-django-fluent-pages
+django-fluent-pages<2.0
 django-tinymce
 swapper
-pillow
+pillow<5.0
 south
