@@ -78,7 +78,7 @@ class CampaignAdmin(admin.ModelAdmin):
             num_sent = obj.send()
 
             self.message_user(request,
-                _(u'The %(name)s "%(obj)s" was successfully sent. %(num_sent)s messages delivered.' %  {
+                _('The %(name)s "%(obj)s" was successfully sent. %(num_sent)s messages delivered.' %  {
                     'name': force_text(opts.verbose_name),
                     'obj': force_text(obj),
                     'num_sent': num_sent,

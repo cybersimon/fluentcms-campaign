@@ -20,7 +20,7 @@ def get_mail_processors():
             module, attr = path[:i], path[i+1:]
             try:
                 mod = __import__(module, {}, {}, [attr])
-            except ImportError, e:
+            except ImportError as e:
                 raise ImproperlyConfigured(
                     'Error importing campaign processor module %s: "%s"' % (module, e))
             try:
